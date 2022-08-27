@@ -10,7 +10,8 @@ from tools.misc import save_to_json
 def scrape_everything() -> List[Video]:
     videos = []
     page_links = {}
-    for scraper in SOURCES:
+    # We sort it to get a stable execution order to not be confused during debugging.
+    for scraper in sorted(SOURCES, key=lambda x: type(x).__name__):
         print(f'Processing “{scraper.get_name()}”…')
         additional_videos, additional_page_links = scraper.process()
         videos.extend(additional_videos)
