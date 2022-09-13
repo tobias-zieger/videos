@@ -19,16 +19,26 @@ def get_category_shortname(category: str) -> str:
     return result
 
 
-def get_cache_name_for_start_page(category_shortname: str) -> str:
-    return f'{category_shortname}-start.html'
+def get_cache_name_for_start_page(
+    scraper_name: str,
+    category_shortname: str,
+) -> str:
+    return f'{scraper_name}-{category_shortname}-start.html'
 
 
-def get_cache_name_for_paginated_page(category_shortname: str, page_number: int) -> str:
-    return f'{category_shortname}-page-{page_number}.html'
+def get_cache_name_for_paginated_page(
+    scraper_name: str,
+    category_shortname: str,
+    page_number: int,
+) -> str:
+    return f'{scraper_name}-{category_shortname}-page-{page_number}.html'
 
 
-def get_cache_name_for_summary_file(category_shortname: str) -> str:
-    return f'{category_shortname}-summary.txt'
+def get_cache_name_for_summary_file(
+    scraper_name: str,
+    category_shortname: str,
+) -> str:
+    return f'{scraper_name}-{category_shortname}-summary.txt'
 
 
 def read_file_to_string(filename: str) -> str:
@@ -68,6 +78,7 @@ def save_to_json(videos: List[Video], page_links: Dict[str, List[str]]) -> None:
             file.write(line)
         file.write(']\n\n')
 
+
 def download_image(uri: str, target_filename: str) -> None:
     if not os.path.exists(target_filename):
         # Put some sleep here when an actual HTTP request is done.
@@ -79,6 +90,7 @@ def download_image(uri: str, target_filename: str) -> None:
 
         with open(target_filename, 'wb') as file:
             file.write(response.content)
+
 
 def group_by(items: List[Any], criterion) -> Dict[str, Any]:
     result = {}

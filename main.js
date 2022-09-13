@@ -32,6 +32,7 @@ function showVideo(video) {
   // create the close button
   closeButton = document.createElement("span");
   closeButton.setAttribute("id", "closeVideo");
+  closeButton.setAttribute("class", "buttons");
   closeButton.innerHTML = "×";
   closeButton.onclick = function(e) {
     document.getElementById("player-background").innerHTML = "";
@@ -42,6 +43,8 @@ function showVideo(video) {
   // create the video element
   videoElement = document.createElement("video");
   videoElement.setAttribute("controls", "");
+  videoElement.setAttribute("autoplay", "");
+  videoElement.setAttribute("id", "video");
   playerBackground.appendChild(videoElement);
 
   // create the source element

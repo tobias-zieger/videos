@@ -27,7 +27,12 @@ class LogoScraper(KikaScraper):
         # Fetch the logo.
         link_shortname = get_category_shortname(self.name)
         start_page_filename = os.path.join(
-            TEMPDIR, get_cache_name_for_start_page(link_shortname))
+            TEMPDIR,
+            get_cache_name_for_start_page(
+                scraper_name=self.scraper_name,
+                category_shortname=link_shortname,
+            ),
+        )
         start_page = download_cached(
             uri=self.link, cache_filename=start_page_filename)
 

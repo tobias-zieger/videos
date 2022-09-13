@@ -37,9 +37,16 @@ class SachgeschichtenMetaScraper(Scraper):
         category_name = 'WDRMaus'
         link_shortname = get_category_shortname(category_name)
         start_page_filename = os.path.join(
-            TEMPDIR, get_cache_name_for_start_page(link_shortname))
-        html = download_cached(uri=self.link_wdrmaus,
-                               cache_filename=start_page_filename)
+            TEMPDIR,
+            get_cache_name_for_start_page(
+                scraper_name=self.scraper_name,
+                category_shortname=link_shortname,
+            ),
+        )
+        html = download_cached(
+            uri=self.link_wdrmaus,
+            cache_filename=start_page_filename,
+        )
 
         soup = BeautifulSoup(html, 'html.parser')
         result = []
@@ -90,9 +97,16 @@ class SachgeschichtenMetaScraper(Scraper):
         category_name = 'WDRKinder'
         link_shortname = get_category_shortname(category_name)
         start_page_filename = os.path.join(
-            TEMPDIR, get_cache_name_for_start_page(link_shortname))
-        html = download_cached(uri=self.link_kinder_wdr,
-                               cache_filename=start_page_filename)
+            TEMPDIR,
+            get_cache_name_for_start_page(
+                scraper_name=self.scraper_name,
+                category_shortname=link_shortname,
+            ),
+        )
+        html = download_cached(
+            uri=self.link_kinder_wdr,
+            cache_filename=start_page_filename,
+        )
 
         soup = BeautifulSoup(html, 'html.parser')
 
@@ -165,9 +179,16 @@ class SachgeschichtenMetaScraper(Scraper):
         category_name = 'WDRKinderPodcast'
         link_shortname = get_category_shortname(category_name)
         start_page_filename = os.path.join(
-            TEMPDIR, get_cache_name_for_start_page(link_shortname))
-        xml = download_cached(uri=self.link_kinder_wdr_podcast,
-                              cache_filename=start_page_filename)
+            TEMPDIR,
+            get_cache_name_for_start_page(
+                scraper_name=self.scraper_name,
+                category_shortname=link_shortname,
+            ),
+        )
+        xml = download_cached(
+            uri=self.link_kinder_wdr_podcast,
+            cache_filename=start_page_filename,
+        )
 
         soup = BeautifulSoup(xml, 'xml')
 
@@ -214,8 +235,11 @@ class SachgeschichtenMetaScraper(Scraper):
         result = []
 
         # We need this later…
-        descending_priorities = [RegularVideo,
-                                 NotHotlinkableVideo, UnavailableVideo]
+        descending_priorities = [
+            RegularVideo,
+            NotHotlinkableVideo,
+            UnavailableVideo,
+        ]
         priority_lookup = {
             priority.__name__: index
             for index, priority

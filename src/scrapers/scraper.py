@@ -7,6 +7,10 @@ class Scraper:
     def get_name(self) -> str:
         return self.name
 
+    @property
+    def scraper_name(self) -> str:
+        return type(self).__name__
+
     def process(self) -> List[Video]:
         videos = self._scrape()
         videos = self._deduplicate_and_fuse_videos(videos)

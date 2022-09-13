@@ -1,6 +1,7 @@
 from typing import Dict, List
 
 from business_objects.video import Video
+from scrapers.brscraper import BrScraper
 from scrapers.kikascraper import KikaScraper
 from scrapers.scraper import Scraper
 from tools.deduplication import cluster_by_duplicity, fuse_videos
@@ -24,11 +25,6 @@ class WildeWeltMetaScraper(Scraper):
             (
                 'Anna auf der Alm',
                 'https://www.kika.de/anna-auf-der-alm/buendelgruppe2682.html',
-            ),
-
-            (
-                'Anna und das wilde Wissen',
-                'https://www.kika.de/wilde-welt/anna-und-das-wilde-wissen/videos-anna-und-das-wilde-wissen-102.html',
             ),
 
             (
@@ -77,13 +73,30 @@ class WildeWeltMetaScraper(Scraper):
             ),
         ]
 
-        for name, link in sub_sources:
-            additional_videos, additional_links = KikaScraper(
-                name=name,
-                link=link,
-            ).process()
+        scrapers = [
+            KikaScraper(name=name, link=link)
+            for name, link
+            in sub_sources
+        ]
 
-            if name == 'Wilde Welt':
+        scrapers.append(
+            BrScraper(
+                'Anna und das wilde Wissen',
+                'https://www.br.de/kinder/schauen/anna-pia-und-das-wilde-wissen/index.html'
+            )
+        )
+
+        scrapers.append(
+            BrScraper(
+                'Pia und das wilde Wissen',
+                'https://www.br.de/kinder/schauen/anna-pia-und-das-wilde-wissen/index.html'
+            )
+        )
+
+        for scraper in scrapers:
+            additional_videos, additional_links = scraper.process()
+
+            if scraper.name == 'Wilde Welt':
                 for video in additional_videos:
                     video.series = ''
 

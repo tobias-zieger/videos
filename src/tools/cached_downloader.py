@@ -14,6 +14,9 @@ def download_cached(uri: str, cache_filename: str) -> str:
         if response.status_code != 200:
             raise Exception
 
+        # Some pages return UTF-8, but don't declare it as such.
+        response.encoding = response.apparent_encoding
+
         with open(cache_filename, 'w') as file:
             file.write(response.text)
 

@@ -74,7 +74,7 @@ img.categoryPicture {
   vertical-align: middle;
 }
 
-#closeVideo {
+.buttons {
   color: white;
   font-size: 80px;
   position: fixed;

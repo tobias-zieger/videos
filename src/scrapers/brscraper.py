@@ -15,7 +15,7 @@ from tools.misc import (download_image, get_cache_name_for_paginated_page,
 
 from scrapers.scraper import Scraper
 
-base_uri = 'https://www.kika.de'
+base_uri = 'https://www.br.de'
 
 
 def get_page_links(page: str) -> List[str]:
@@ -29,7 +29,7 @@ def get_page_links(page: str) -> List[str]:
     return sorted(links)
 
 
-class KikaScraper(Scraper):
+class BrScraper(Scraper):
 
     def __init__(self, name: str, link: str):
         self.name = name
@@ -45,9 +45,9 @@ class KikaScraper(Scraper):
             ),
         )
         start_page = download_cached(
-            uri=self.link, cache_filename=start_page_filename)
-
-        self._download_logo(html=start_page)
+            uri=self.link,
+            cache_filename=start_page_filename,
+        )
 
         page_links = get_page_links(start_page)
         if not page_links:
@@ -94,7 +94,7 @@ class KikaScraper(Scraper):
 
                 # Here, we don't use BeautifulSoup to write the relevant part to the file because that would change the HTML code (due to pretty printing).
                 matches = re \
-                    .compile(r'.*sectionArticle">(?P<content>.*)<!--The bottom navigation.*', re.DOTALL) \
+                    .compile(r'.*<div class="section_inner clearFix">(?P<content>.*)<div class="detail">.*', re.DOTALL) \
                     .match(paginated_page)
                 if not matches:
                     raise Exception
@@ -104,22 +104,11 @@ class KikaScraper(Scraper):
 
         # parse each entry of that file
         items = re.split(
-            pattern=r'(?=<div class="box  boxBanner)',
+            pattern=r'(?=<div class="box box_standard">)',
             string=read_file_to_string(summary_file_name),
         )[1:]
 
         return items
-
-    def _download_logo(self, html: str):
-        soup = BeautifulSoup(html, 'html.parser')
-        hits = soup.select('noscript img')
-        relevant_hits = [hit for hit in hits if hit.has_attr(
-            'title') and hit.attrs['title'].lower().startswith(self.get_name().lower())]
-        if relevant_hits:
-            hit = relevant_hits.pop()
-            target_filename = os.path.join(THUMBDIR, f'{self.get_name()}.png')
-            download_image(uri=hit.attrs['src'],
-                           target_filename=target_filename)
 
     def _scrape(self) -> List[Video]:
         # Don't use a set here as it swallows some items. Also, a list retains the order.
@@ -133,7 +122,14 @@ class KikaScraper(Scraper):
 
         for item in items:
             soup = BeautifulSoup(item, 'html.parser')
-            original_title = soup.select_one('h4.headline a').contents.pop()
+
+            series = soup.select_one('span.teaser_overline').contents.pop()
+
+            if series != self.name:
+                continue
+
+            original_title = soup.select_one(
+                'span.teaser_title').contents.pop()
 
             # Clean away surrounding whitespaces.
             original_title = original_title.strip()
@@ -142,20 +138,25 @@ class KikaScraper(Scraper):
             clean_title = re.sub(
                 pattern=r'^[0-9]+\. ', repl='', string=original_title)
 
-            original_image = soup.select_one('noscript img').attrs['src']
+            original_image = soup.select_one('img').attrs['src']
             # Download (i.e., cache) the thumbnail.
+            original_image = base_uri + original_image
 
-            short_name = soup.select_one('div.media.media a').attrs['href']
-            short_name = re.search(
-                pattern=r'(?<=/)(?P<last>[^/]+)$', string=short_name).group('last')
+            short_name = set(soup.select_one('a.link_video.contenttype_standard').attrs['class']).difference(
+                ['link_video', 'contenttype_standard']).pop()
+            # short_name = re.search(
+            #     pattern=r'(?<=/)(?P<last>[^/]+)$', string=short_name).group('last')
             short_name = re.sub(
-                pattern=r'-[0-9]+\.html$', repl='', string=short_name)
+                pattern=r'-[0-9]+$',
+                repl='',
+                string=short_name,
+            )
 
             local_image_filename = os.path.join(THUMBDIR, short_name) + '.jpg'
-            download_image(uri=original_image,
-                           target_filename=local_image_filename)
-
-            series = self.name
+            download_image(
+                uri=original_image,
+                target_filename=local_image_filename,
+            )
 
             # Now, fetch the video link.
             candidates = filmliste.search(
