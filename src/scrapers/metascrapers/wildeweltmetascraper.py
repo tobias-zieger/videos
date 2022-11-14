@@ -19,57 +19,57 @@ class WildeWeltMetaScraper(Scraper):
         sub_sources = [
             (
                 'Anna auf dem Bauernhof',
-                'https://www.kika.de/anna-auf-dem-bauernhof/sendungen/videos-anna-auf-dem-bauernhof-102.html',
+                'https://www.kika.de/wilde-tierwelt/anna-auf-dem-bauernhof/buendelgruppe3064.html',
             ),
 
             (
                 'Anna auf der Alm',
-                'https://www.kika.de/anna-auf-der-alm/buendelgruppe2682.html',
+                'https://www.kika.de/wilde-tierwelt/anna-auf-der-alm/buendelgruppe2682.html',
             ),
 
             (
                 'Anna und der wilde Wald',
-                'https://www.kika.de/anna-und-der-wilde-wald/buendelgruppe2814.html',
+                'https://www.kika.de/wilde-tierwelt/anna-und-der-wilde-wald/buendelgruppe2814.html',
             ),
 
             (
                 'Anna und die Haustiere',
-                'https://www.kika.de/anna-und-die-haustiere/buendelgruppe2112.html',
+                'https://www.kika.de/wilde-tierwelt/die-haustiere/anna-und-die-haustiere/sendungen/videos-anna-und-die-haustiere-100.html',
             ),
 
             (
                 'Anna und die wilden Tiere',
-                'https://www.kika.de/anna-und-die-wilden-tiere/buendelgruppe2118.html',
+                'https://www.kika.de/wilde-tierwelt/die-wilden-tiere/anna-und-die-wilden-tiere/sendungen/videos-anna-und-die-wilden-tiere-100.html',
             ),
 
             (
                 'Frag Anna!',
-                'https://www.kika.de/wilde-welt/frag-anna/videos-frag-anna-100.html',
+                'https://www.kika.de/wilde-tierwelt/frag-anna/videos-frag-anna-100.html',
             ),
 
             (
                 'Paula und die wilden Tiere',
-                'https://www.kika.de/paula-und-die-wilden-tiere/buendelgruppe1688.html',
+                'https://www.kika.de/wilde-tierwelt/die-wilden-tiere/paula-und-die-wilden-tiere/sendungen/videos-paula-und-die-wilden-tiere-100.html',
             ),
 
             (
                 'Pia und die Haustiere',
-                'https://www.kika.de/pia-und-die-haustiere/buendelgruppe2922.html',
+                'https://www.kika.de/wilde-tierwelt/die-haustiere/pia-und-die-haustiere/videos-pia-und-die-haustiere-102.html',
             ),
 
             (
                 'Pia und die wilde Natur',
-                'https://www.kika.de/pia-und-die-wilde-natur/alle-folgen-100.html',
+                'https://www.kika.de/wilde-tierwelt/pia-und-die-wilde-natur/videos-pia-und-die-wilde-natur-100.html',
             ),
 
             (
                 'Pia und die wilden Tiere',
-                'https://www.kika.de/pia-und-die-wilden-tiere/buendelgruppe2858.html',
+                'https://www.kika.de/wilde-tierwelt/die-wilden-tiere/pia-und-die-wilden-tiere/sendungen/videos-pia-und-die-wilden-tiere-100.html',
             ),
 
             (
                 'Wilde Welt',
-                'https://www.kika.de/wilde-welt/alle-videos-116_page-8_zc-bac7c88f.html',
+                'https://www.kika.de/wilde-tierwelt/alle-videos-116.html',
             ),
         ]
 
