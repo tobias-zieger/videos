@@ -13,13 +13,16 @@ def scrape_everything() -> List[Video]:
     # We sort it to get a stable execution order to not be confused during debugging.
     for scraper in sorted(SOURCES, key=lambda x: type(x).__name__):
         print(f'Processing “{scraper.get_name()}”…')
-        additional_videos, additional_page_links = scraper.process()
-        videos.extend(additional_videos)
+        try:
+            additional_videos, additional_page_links = scraper.process()
+            videos.extend(additional_videos)
 
-        for page, links in additional_page_links.items():
-            existing_links = page_links.get(page, [])
-            existing_links.extend(links)
-            page_links[page] = links
+            for page, links in additional_page_links.items():
+                existing_links = page_links.get(page, [])
+                existing_links.extend(links)
+                page_links[page] = links
+        except:
+            print('There was an error during processing. Skipping this source.')
 
     return videos, page_links
 

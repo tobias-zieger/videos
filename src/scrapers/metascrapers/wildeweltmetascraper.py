@@ -94,15 +94,17 @@ class WildeWeltMetaScraper(Scraper):
         )
 
         for scraper in scrapers:
-            additional_videos, additional_links = scraper.process()
+            try:
+                additional_videos, additional_links = scraper.process()
 
-            if scraper.name == 'Wilde Welt':
-                for video in additional_videos:
-                    video.series = ''
+                if scraper.name == 'Wilde Welt':
+                    for video in additional_videos:
+                        video.series = ''
 
-            videos.extend(additional_videos)
-            self.links.update(additional_links)
-
+                videos.extend(additional_videos)
+                self.links.update(additional_links)
+            except:
+                print('There was a problem with this scraper. Skipping this scraper.')
         return videos
 
     def _deduplicate_and_fuse_videos(self, videos: List[Video]) -> List[Video]:
